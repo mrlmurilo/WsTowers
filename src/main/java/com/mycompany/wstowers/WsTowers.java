@@ -18,8 +18,7 @@ public class WsTowers {
         LoginGui loginGui = new LoginGui();
 
         ConnectionFactory conn = new ConnectionFactory();
-        Connection connection = null;
-        connection = conn.getConnection();
+        Connection connection = conn.getConnection();
         loginGui.setVisible(true);
     }
 
