@@ -7,7 +7,6 @@ package com.mycompany.wstowers.util;
 import java.util.UUID;
 import lombok.Getter;
 import lombok.Setter;
-
 @Getter
 @Setter
 /**

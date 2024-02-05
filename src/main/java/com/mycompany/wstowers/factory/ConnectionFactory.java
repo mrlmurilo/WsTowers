@@ -11,13 +11,23 @@ import java.sql.Statement;
  */
 public class ConnectionFactory {
 
-    public Connection getConnection() throws SQLException {
-        String jdbcUrl = "jdbc:mysql://localhost:3306/";
-        String dbName = "wstowers";
-        String dbUser = "root";
-        String dbPassword = "root";
-        Connection connection = null;
+    String jdbcUrl = "jdbc:mysql://localhost:3306/";
+    String dbName = "wstowers";
+    String dbUser = "root";
+    String dbPassword = "root";
+    Connection connection = null;
 
+    public Connection getConnection() throws SQLException {
+
+        try {
+            return DriverManager
+                    .getConnection("jdbc:mysql://localhost:3306/wstowers?user=root&password=root");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void primeiroAcesso() {
         try {
             connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
             System.out.println("Conexão estabelecida com sucesso!");
@@ -32,7 +42,6 @@ public class ConnectionFactory {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return connection;
     }
 
     private static boolean databaseExists(Connection connection, String dbName) throws SQLException {
@@ -53,13 +62,13 @@ public class ConnectionFactory {
         try (Statement stmt = connection.createStatement()) {
             String sql = "USE wstowers";
             stmt.execute(sql);
-            String createTableSQL = "CREATE TABLE IF NOT EXISTS Usuario (ID INT PRIMARY KEY, Nome VARCHAR(255), Senha VARCHAR(60))";
+            String createTableSQL = "CREATE TABLE IF NOT EXISTS Usuario (ID INT PRIMARY KEY AUTO_INCREMENT, Nome VARCHAR(255), Senha VARCHAR(60))";
             stmt.executeUpdate(createTableSQL);
             stmt.execute(sql);
-            createTableSQL = "CREATE TABLE IF NOT EXISTS Mapa (ID INT PRIMARY KEY, Dados VARCHAR(255), SolucaMinima int)";
+            createTableSQL = "CREATE TABLE IF NOT EXISTS Mapa (ID INT PRIMARY KEY AUTO_INCREMENT, Dados VARCHAR(255), SolucaMinima int)";
             stmt.executeUpdate(createTableSQL);
             stmt.execute(sql);
-            createTableSQL = "CREATE TABLE IF NOT EXISTS Partida (ID INT PRIMARY KEY, IDUsuario int, IDMapa int, Movimentos int, Falhas int,"
+            createTableSQL = "CREATE TABLE IF NOT EXISTS Partida (ID INT PRIMARY KEY AUTO_INCREMENT, IDUsuario int, IDMapa int, Movimentos int, Falhas int,"
                     + "CONSTRAINT fk_IdUsuario FOREIGN KEY (IDUsuario) REFERENCES Usuario (ID), "
                     + "CONSTRAINT fk_IdMapa FOREIGN KEY (IDMapa) REFERENCES Mapa(ID));";
             stmt.executeUpdate(createTableSQL);
