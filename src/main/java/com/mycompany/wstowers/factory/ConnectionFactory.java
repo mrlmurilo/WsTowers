@@ -18,7 +18,6 @@ public class ConnectionFactory {
     Connection connection = null;
 
     public Connection getConnection() throws SQLException {
-
         try {
             return DriverManager
                     .getConnection("jdbc:mysql://localhost:3306/wstowers?user=root&password=root");

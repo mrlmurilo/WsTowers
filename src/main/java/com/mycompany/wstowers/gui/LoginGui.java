@@ -1,6 +1,11 @@
 package com.mycompany.wstowers.gui;
 
+import com.mycompany.wstowers.util.LoginDAO;
 import java.awt.Color;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import static javax.swing.JOptionPane.showMessageDialog;
 
 /**
  *
@@ -9,12 +14,12 @@ import java.awt.Color;
 public class LoginGui extends javax.swing.JFrame {
 
     Color bgColor = Color.decode("#60ff60");
+    private LoginDAO loginDao = new LoginDAO();
 
     public LoginGui() {
         initComponents();
         bgPanel.setBackground(bgColor);
         setLocationRelativeTo(null);
-//        setUndecorated(true); // Remove title bar
     }
 
     /**
@@ -28,12 +33,14 @@ public class LoginGui extends javax.swing.JFrame {
 
         bgPanel = new javax.swing.JPanel();
         loginPane = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        lbUser = new javax.swing.JLabel();
         txtUser = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        lblSenha = new javax.swing.JLabel();
+        txtSenha = new javax.swing.JPasswordField();
+        btCadastrar = new javax.swing.JButton();
+        btLogin = new javax.swing.JButton();
+        lblRepetirSenha = new javax.swing.JLabel();
+        txtRepetirSenha = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Ws Towers");
@@ -46,7 +53,7 @@ public class LoginGui extends javax.swing.JFrame {
 
         loginPane.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
-        jLabel1.setText("Usuario:");
+        lbUser.setText("Nome:");
 
         txtUser.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -54,21 +61,23 @@ public class LoginGui extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Senha:");
+        lblSenha.setText("Senha:");
 
-        jButton1.setText("Cadastrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btCadastrar.setText("Cadastrar");
+        btCadastrar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btCadastrarActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Login");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btLogin.setText("Login");
+        btLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btLoginActionPerformed(evt);
             }
         });
+
+        lblRepetirSenha.setText("Repetir senha:");
 
         loginPane.setBackground(bgColor);
 
@@ -78,32 +87,39 @@ public class LoginGui extends javax.swing.JFrame {
             loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPaneLayout.createSequentialGroup()
                 .addGap(102, 102, 102)
-                .addGroup(loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(loginPaneLayout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton2))
-                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1)
-                    .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addGroup(loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtRepetirSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblRepetirSenha)
+                    .addGroup(loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(loginPaneLayout.createSequentialGroup()
+                            .addComponent(btCadastrar)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btLogin))
+                        .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lbUser)
+                        .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, 239, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblSenha)))
                 .addContainerGap(145, Short.MAX_VALUE))
         );
         loginPaneLayout.setVerticalGroup(
             loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(loginPaneLayout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addComponent(jLabel1)
+                .addComponent(lbUser)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
-                .addComponent(jLabel2)
+                .addComponent(lblSenha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(134, 134, 134)
+                .addComponent(txtSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(lblRepetirSenha)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtRepetirSenha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(72, 72, 72)
                 .addGroup(loginPaneLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(btCadastrar)
+                    .addComponent(btLogin))
                 .addContainerGap(142, Short.MAX_VALUE))
         );
 
@@ -144,13 +160,40 @@ public class LoginGui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtUserActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void btLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btLoginActionPerformed
+        try {
+            doLogin(evt);
+        } catch (SQLException ex) {
+            Logger.getLogger(LoginGui.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_btLoginActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void doLogin(java.awt.event.ActionEvent evt) throws SQLException {
+        String user = txtUser.getText();
+        String senha = txtSenha.getText();
+
+        if (loginDao.validateLogin(user, senha) == true) {
+            System.out.println("Foi");
+        } else {
+            System.out.println("Login errado ");
+        }
+
+    }
+
+    private void btCadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btCadastrarActionPerformed
+        String nome = txtUser.getText();
+        String senha = txtSenha.getText();
+        String repetirSenha = txtRepetirSenha.getText();
+        if (senha.equals(repetirSenha)) {
+            try {
+                loginDao.cadastrar(nome, senha);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        } else {
+            showMessageDialog(null, "As senhas não conferem");
+        }
+    }//GEN-LAST:event_btCadastrarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -190,12 +233,15 @@ public class LoginGui extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel bgPanel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPasswordField jPasswordField1;
+    private javax.swing.JButton btCadastrar;
+    private javax.swing.JButton btLogin;
+    private javax.swing.JLabel lbUser;
+    private javax.swing.JLabel lblRepetirSenha;
+    private javax.swing.JLabel lblSenha;
     private javax.swing.JPanel loginPane;
+    private javax.swing.JPasswordField txtRepetirSenha;
+    private javax.swing.JPasswordField txtSenha;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+
 }

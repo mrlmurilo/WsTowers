@@ -24,7 +24,7 @@ public class LoginDAO {
             JOptionPane.showMessageDialog(null, "Algum campo está vazio, por favor tente novamente", "Erro", JOptionPane.ERROR_MESSAGE);
             return false;
         }
-        String sql = "SELECT ID FROM usuario WHERE Nome = ? AND Senha = ?";
+        String sql = "SELECT * FROM usuario WHERE Nome = ? AND Senha = ?";
 
         Connection conn = connection.getConnection();
         try {
@@ -47,5 +47,17 @@ public class LoginDAO {
             e.printStackTrace();
         }
         return isLoginOk;
+    }
+
+    public void cadastrar(String nome, String senha) throws SQLException {
+        String sql = "INSERT INTO Usuario (Nome, Senha) VALUES (?, ?)";
+
+        Connection conn = connection.getConnection();
+        PreparedStatement preparedStatement = conn.prepareStatement(sql);
+        preparedStatement.setString(1, nome);
+        preparedStatement.setInt(2, Integer.valueOf(senha));
+        preparedStatement.executeUpdate();
+        System.out.println("Cadastrado com sucesso");
+        conn.close();
     }
 }
