@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements ActionListener {
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     int width = (int) screenSize.getWidth();
     int height = (int) screenSize.getHeight();
-    int unitSize = 50;
+    int unitSize = 20;
     int GAME_UNITS = (width * height);
     int xPos;
     int yPos;
@@ -43,37 +43,51 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void drawn(Graphics g) {
         if (running) {
-            for (int x = 0; x < width / unitSize; x++) {
-                for (int y = 0; y < height / unitSize; y++) {
-                    
-                    xPos = x * unitSize;
-                    yPos = y * unitSize;
+            int matrixWidth = 64; // Largura da matriz em células
+            int matrixHeight = 32; // Altura da matriz em células
 
+            // Calcula a largura e a altura total do desenho da matriz de quadrados
+            int totalWidth = matrixWidth * unitSize;
+            int totalHeight = matrixHeight * unitSize;
+
+            // Calcula as coordenadas do canto superior esquerdo para centralizar o desenho
+            int startX = (width - totalWidth) / 2;
+            int startY = (height - totalHeight) / 2;
+
+            // Itera sobre as células da matriz
+            for (int x = 0; x < matrixWidth; x++) {
+                for (int y = 0; y < matrixHeight; y++) {
+                    // Calcula as coordenadas da célula na tela
+                    int xPos = startX + x * unitSize;
+                    int yPos = startY + y * unitSize;
+
+                    // Desenha o quadrado na posição calculada
                     if (x == 20 && y == 1) {
-                        desenharQuadrados(x, y, unitSize, g, Color.green);
+                        desenharQuadrados(xPos, yPos, unitSize, g, Color.green);
                     } else {
                         g.setColor(Color.WHITE);
                         g.drawRect(xPos, yPos, unitSize, unitSize);
                     }
 
-                    String coord = "(" + x + ", " + y + ")";
-                    g.drawString(coord, xPos + unitSize / 2 - 10, yPos + unitSize / 2);
+                    // Desenha as coordenadas no centro do quadrado
+//                    String coord = "(" + x + ", " + y + ")";
+//                    g.drawString(coord, xPos + unitSize / 2 - 10, yPos + unitSize / 2);
                 }
             }
-            desenharQuadrados(5, 9, unitSize, g, Color.white);
-            desenharQuadrados(6, 0, unitSize, g, Color.white);
-            desenharQuadrados(16, 1, unitSize, g, Color.white);
-            desenharQuadrados(15, 7, unitSize, g, Color.white);
-            desenharQuadrados(15, 7, unitSize, g, Color.white);
-            desenharQuadrados(12, 6, unitSize, g, Color.white);
-            desenharQuadrados(13, 14, unitSize, g, Color.white);
-            desenharQuadrados(3, 14, unitSize, g, Color.white);
-            desenharQuadrados(4, 17, unitSize, g, Color.white);
-            desenharQuadrados(26, 16, unitSize, g, Color.white);
-            desenharQuadrados(26, 16, unitSize, g, Color.white);
-            desenharQuadrados(25, 7, unitSize, g, Color.white);
-            desenharQuadrados(19, 8, unitSize, g, Color.white);
-            desenharQuadrados(29, 9, unitSize, g, Color.red);
+
+            desenharQuadrados(startX + 5, startY + 9, unitSize, g, Color.white);
+            desenharQuadrados(startX + 6, startY + 0, unitSize, g, Color.white);
+            desenharQuadrados(startX + 6, startY + 0, unitSize, g, Color.white);
+            desenharQuadrados(startX + 16, startY + 1, unitSize, g, Color.white);
+            desenharQuadrados(startX + 15, startY + 7, unitSize, g, Color.white);
+            desenharQuadrados(startX + 12, startY + 6, unitSize, g, Color.white);
+            desenharQuadrados(startX + 13, startY + 14, unitSize, g, Color.white);
+            desenharQuadrados(startX + 3, startY + 14, unitSize, g, Color.white);
+            desenharQuadrados(startX + 4, startY + 17, unitSize, g, Color.white);
+            desenharQuadrados(startX + 26, startY + 16, unitSize, g, Color.white);
+            desenharQuadrados(startX + 25, startY + 7, unitSize, g, Color.white);
+            desenharQuadrados(startX + 19, startY + 8, unitSize, g, Color.white);
+            desenharQuadrados(startX + 29, startY + 9, unitSize, g, Color.red);
         }
     }
 
