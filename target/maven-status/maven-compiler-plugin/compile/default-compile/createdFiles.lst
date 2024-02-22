@@ -12,10 +12,12 @@ com\mycompany\wstowers\gui\EstatisticasPanel$MyKeyAdapter.class
 com\mycompany\wstowers\util\LoginDAO.class
 com\mycompany\wstowers\WsTowers.class
 com\mycompany\wstowers\gui\MenuPanel$MyKeyAdapter.class
+com\mycompany\wstowers\NewJFrame$1.class
 com\mycompany\wstowers\gui\CriacaoMapasPanel.class
 com\mycompany\wstowers\gui\CriacaoMapasPanel$MyKeyAdapter.class
 com\mycompany\wstowers\gui\LoginGui$2.class
 com\mycompany\wstowers\factory\ConnectionFactory.class
+com\mycompany\wstowers\NewJFrame.class
 com\mycompany\wstowers\gui\LoginGui$1.class
 com\mycompany\wstowers\gui\LoginGui$5.class
 com\mycompany\wstowers\gui\EstatisticasPanel.class

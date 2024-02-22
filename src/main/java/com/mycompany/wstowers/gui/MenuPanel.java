@@ -7,8 +7,6 @@ import java.util.Random;
 
 public class MenuPanel extends JPanel implements ActionListener {
 
-    Color bgColor = Color.decode("#60ff60");
-
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
     public int width = (int) screenSize.getWidth();
     public int height = (int) screenSize.getHeight();
@@ -26,7 +24,7 @@ public class MenuPanel extends JPanel implements ActionListener {
     MenuPanel(JFrame frame) {
         this.frame = frame;
         this.setPreferredSize(new Dimension(width, height));
-        this.setBackground(bgColor);
+        this.setBackground(Color.decode("#60ff60"));
         this.setFocusable(true);
         this.addKeyListener(new MyKeyAdapter());
         startMenu();
@@ -72,7 +70,6 @@ public class MenuPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         if (e.getSource() == btJogar) {
             jogar();
         }
@@ -85,7 +82,6 @@ public class MenuPanel extends JPanel implements ActionListener {
         if (e.getSource() == btSair) {
             sair();
         }
-        
     }
 
     public void jogar() {
