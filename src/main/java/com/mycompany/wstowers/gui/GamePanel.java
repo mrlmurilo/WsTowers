@@ -12,6 +12,11 @@ public class GamePanel extends JPanel implements ActionListener {
     int unitSize = 23;
     int matrixWidth = 64; // Largura da matriz em células
     int matrixHeight = 32; // Altura da matriz em células
+    int playerPositionX;
+    int playerPositionY;
+    char direction;
+    static final int DELAY = 75;
+    Timer timer;
 
     GamePanel(JFrame frame) {
         this.frame = frame;
@@ -23,6 +28,10 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private void startGame() {
         running = true;
+        timer = new Timer(DELAY, this);
+        timer.start();
+        playerPositionX = 0; // Posição inicial X do jogador no centro da matriz
+        playerPositionY = 0; // Posição inicial Y do jogador no centro da matriz
     }
 
     public void paintComponent(Graphics g) {
@@ -48,8 +57,34 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
             g.setColor(Color.GRAY);
-            desenharQuadrados(0, 0, g, Color.red);
+            desenharQuadrados(playerPositionX, playerPositionY, g, Color.red);
+        }
+    }
 
+    public void move() {
+        if (direction == 'R') {
+            // Verifica se o jogador não está na borda direita da matriz
+            if (playerPositionX < matrixWidth) {
+                playerPositionX++; // Move o jogador para a direita
+            }
+        }
+        if (direction == 'L') {
+            // Verifica se o jogador não está na borda Esquerda da matriz
+            if (playerPositionX >= 0) {
+                playerPositionX--; // Move o jogador para a esquerda
+            }
+        }
+        if (direction == 'U') {
+            // Verifica se o jogador não está na borda superior da matriz
+            if (playerPositionY <= matrixHeight) {
+                playerPositionY--; // Move o jogador para cima
+            }
+        }
+        if (direction == 'D') {
+            // Verifica se o jogador não está na borda inferior da matriz
+            if (playerPositionY < matrixHeight) {
+                playerPositionY++; // Move o jogador para baixo
+            }
         }
     }
 
@@ -57,12 +92,29 @@ public class GamePanel extends JPanel implements ActionListener {
 
         @Override
         public void keyPressed(KeyEvent e) {
+            switch (e.getKeyCode()) {
+                case KeyEvent.VK_LEFT:
+                    direction = 'L';
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    direction = 'R';
+                    break;
+                case KeyEvent.VK_UP:
+                    direction = 'U';
+                    break;
+                case KeyEvent.VK_DOWN:
+                    direction = 'D';
+                    break;
+            }
         }
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        if (running) {
+            move();
+        }
+        repaint();
     }
 
     public void pausar() {
