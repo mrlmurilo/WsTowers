@@ -2,7 +2,8 @@ package com.mycompany.wstowers.gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 import javax.swing.*;
 
 public class GamePanel extends JPanel implements ActionListener {
@@ -17,6 +18,8 @@ public class GamePanel extends JPanel implements ActionListener {
     char direction;
     static final int DELAY = 75;
     Timer timer;
+    List<Integer> xHasQuadradoBranco = new ArrayList<>();
+    List<Integer> yHasQuadradoBranco = new ArrayList<>();
 
     GamePanel(JFrame frame) {
         this.frame = frame;
@@ -28,10 +31,13 @@ public class GamePanel extends JPanel implements ActionListener {
 
     private void startGame() {
         running = true;
+        this.requestFocus();
         timer = new Timer(DELAY, this);
         timer.start();
         playerPositionX = 0; // Posição inicial X do jogador no centro da matriz
         playerPositionY = 0; // Posição inicial Y do jogador no centro da matriz
+        xHasQuadradoBranco.add(10);
+        yHasQuadradoBranco.add(10);
     }
 
     public void paintComponent(Graphics g) {
@@ -58,6 +64,7 @@ public class GamePanel extends JPanel implements ActionListener {
             }
             g.setColor(Color.GRAY);
             desenharQuadrados(playerPositionX, playerPositionY, g, Color.red);
+            desenharQuadrados(xHasQuadradoBranco.get(0), yHasQuadradoBranco.get(0), g, Color.white);
         }
     }
 
@@ -88,6 +95,20 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
+    private void checkColissions() {
+        if (playerPositionX < 0 || playerPositionX >= matrixWidth) {
+            running = false;
+        }
+
+        if (playerPositionY < 0 || playerPositionY >= matrixHeight) {
+            running = false;
+        }
+
+        if (playerPositionX == xHasQuadradoBranco.get(0) && playerPositionY == yHasQuadradoBranco.get(0)) {
+            running = false; // Se houver colisão, o jogo é encerrado
+        }
+    }
+
     public class MyKeyAdapter extends KeyAdapter {
 
         @Override
@@ -113,6 +134,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (running) {
             move();
+            checkColissions();
         }
         repaint();
     }
