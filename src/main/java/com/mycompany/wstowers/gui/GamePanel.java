@@ -15,6 +15,9 @@ public class GamePanel extends JPanel implements ActionListener {
     int matrixHeight = 32; // Altura da matriz em células
     int playerPositionX;
     int playerPositionY;
+    List<Integer> xTrail = new ArrayList<>();
+    List<Integer> yTrail = new ArrayList<>();
+
     char direction;
     static final int DELAY = 75;
     Timer timer;
@@ -37,7 +40,7 @@ public class GamePanel extends JPanel implements ActionListener {
         playerPositionX = 0; // Posição inicial X do jogador no centro da matriz
         playerPositionY = 0; // Posição inicial Y do jogador no centro da matriz
         xHasQuadradoBranco.add(10);
-        yHasQuadradoBranco.add(0);
+        yHasQuadradoBranco.add(10);
     }
 
     public void paintComponent(Graphics g) {
@@ -50,6 +53,14 @@ public class GamePanel extends JPanel implements ActionListener {
             // Calcula as coordenadas do canto superior esquerdo da matriz para centralizá-la
             int startX = (getWidth() - matrixWidth * unitSize) / 2;
             int startY = (getHeight() - matrixHeight * unitSize) / 2;
+
+            //deixa rastro azul
+            g.setColor(Color.BLUE);
+            for (int i = 0; i < xTrail.size(); i++) {
+                int xPos = startX + xTrail.get(i) * unitSize;
+                int yPos = startY + yTrail.get(i) * unitSize;
+                g.fillRect(xPos, yPos, unitSize, unitSize);
+            }
 
             // Itera sobre as células da matriz
             for (int x = 0; x < matrixWidth; x++) {
@@ -93,6 +104,8 @@ public class GamePanel extends JPanel implements ActionListener {
                 playerPositionY++; // Move o jogador para baixo
             }
         }
+        xTrail.add(playerPositionX);
+        yTrail.add(playerPositionY);
     }
 
     private boolean isCollision(int x, int y) {
