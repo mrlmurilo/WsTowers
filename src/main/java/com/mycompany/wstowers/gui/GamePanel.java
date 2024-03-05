@@ -37,7 +37,7 @@ public class GamePanel extends JPanel implements ActionListener {
         playerPositionX = 0; // Posição inicial X do jogador no centro da matriz
         playerPositionY = 0; // Posição inicial Y do jogador no centro da matriz
         xHasQuadradoBranco.add(10);
-        yHasQuadradoBranco.add(10);
+        yHasQuadradoBranco.add(0);
     }
 
     public void paintComponent(Graphics g) {
@@ -70,29 +70,34 @@ public class GamePanel extends JPanel implements ActionListener {
 
     public void move() {
         if (direction == 'R') {
-            // Verifica se o jogador não está na borda direita da matriz
-            if (playerPositionX < matrixWidth) {
+            // Verifica se o próximo movimento levaria o jogador para dentro do quadrado branco
+            if (!isCollision(playerPositionX + 1, playerPositionY)) {
                 playerPositionX++; // Move o jogador para a direita
             }
         }
         if (direction == 'L') {
-            // Verifica se o jogador não está na borda Esquerda da matriz
-            if (playerPositionX >= 0) {
+            // Verifica se o próximo movimento levaria o jogador para dentro do quadrado branco
+            if (!isCollision(playerPositionX - 1, playerPositionY)) {
                 playerPositionX--; // Move o jogador para a esquerda
             }
         }
         if (direction == 'U') {
-            // Verifica se o jogador não está na borda superior da matriz
-            if (playerPositionY <= matrixHeight) {
+            // Verifica se o próximo movimento levaria o jogador para dentro do quadrado branco
+            if (!isCollision(playerPositionX, playerPositionY - 1)) {
                 playerPositionY--; // Move o jogador para cima
             }
         }
         if (direction == 'D') {
-            // Verifica se o jogador não está na borda inferior da matriz
-            if (playerPositionY < matrixHeight) {
+            // Verifica se o próximo movimento levaria o jogador para dentro do quadrado branco
+            if (!isCollision(playerPositionX, playerPositionY + 1)) {
                 playerPositionY++; // Move o jogador para baixo
             }
         }
+    }
+
+    private boolean isCollision(int x, int y) {
+        // Verifica se a posição (x, y) coincide com a posição do quadrado branco
+        return x == xHasQuadradoBranco.get(0) && y == yHasQuadradoBranco.get(0);
     }
 
     private void checkColissions() {
@@ -105,7 +110,7 @@ public class GamePanel extends JPanel implements ActionListener {
         }
 
         if (playerPositionX == xHasQuadradoBranco.get(0) && playerPositionY == yHasQuadradoBranco.get(0)) {
-            running = false; // Se houver colisão, o jogo é encerrado
+            timer.stop();
         }
     }
 
