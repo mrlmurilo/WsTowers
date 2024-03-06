@@ -5,6 +5,7 @@
 package com.mycompany.wstowers.util;
 
 import java.util.UUID;
+import javax.swing.JPanel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +15,7 @@ import lombok.Setter;
  *
  * @author muril
  */
-public class Mapa {
+public class Mapa extends JPanel{
 
     private UUID id;
     private int[] dados;
