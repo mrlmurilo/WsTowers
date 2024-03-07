@@ -17,6 +17,5 @@ public class TelaPrincipal extends JFrame {
         this.setVisible(true);
         this.setLocationRelativeTo(null);
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-
     }
 }

@@ -83,10 +83,10 @@ public class GamePanel extends JPanel implements ActionListener {
                     if (playerPositionx < 63) { // Verifica se o jogador não está no limite direito
                         playerPositionx++; // Move o jogador para a direita
                         break;
-                    }
-                    else{
+                    } else {
                         System.out.println("Game Over");
-                    break;}
+                        break;
+                    }
                 case KeyEvent.VK_LEFT:
                     if (playerPositionx != 0) { // Verifica se o jogador não está no limite esquerda
                         System.out.println("Andando para esquerda");
@@ -120,9 +120,7 @@ public class GamePanel extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e
-    ) {
+    public void actionPerformed(ActionEvent e) {
         repaint();
     }
-
 }
