@@ -12,9 +12,11 @@ public class TelaPrincipal extends JFrame {
         this.setUndecorated(true);
         this.add(new MenuPanel(this));
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
+        this.setResizable(true);
         this.pack();
         this.setVisible(true);
         this.setLocationRelativeTo(null);
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
     }
 }
